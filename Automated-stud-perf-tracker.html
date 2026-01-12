@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <title>FaceCheck In - AI-Powered Attendance | Agile Assembly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FaceCheck In - A smart, AI-powered attendance tracker that uses facial recognition to ensure secure, contactless student check-ins.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('5b1e56af-0d93-42f2-b86b-f6f3c2d3e29a.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #334155;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .animate-fade {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .animate-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- Header -->
+<header class="w-full bg-gradient-to-r from-blue-900 to-indigo-950 text-white py-6 shadow-inner sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Agile Assembly</h1>
+    <a href="index.html#projects-page" class="text-sm font-medium hover:underline flex items-center gap-1">
+      <i class="fas fa-arrow-left"></i> Back to Projects
+    </a>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-16 space-y-16">
+
+  <!-- Hero -->
+  <section class="animate-fade bg-gradient-to-br from-slate-900/90 to-blue-800/90 text-white text-center rounded-xl p-12 md:p-20 shadow-xl backdrop-blur-md">
+    <h2 class="text-4xl md:text-5xl font-bold mb-4">FaceCheck In</h2>
+    <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+      A smart, AI-powered attendance tracker that uses facial recognition for secure, contactless student check-ins.
+    </p>
+  </section>
+
+  <!-- Features -->
+  <section class="card animate-fade">
+    <h3 class="text-3xl font-bold text-blue-700 text-center mb-12">Key Features</h3>
+    <div class="grid md:grid-cols-2 gap-x-10 gap-y-12">
+      <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center">
+          <i class="fas fa-camera-retro fa-lg"></i>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold">Face Enrollment</h4>
+          <p class="mt-1 text-slate-600">Register faces securely via webcam. Data is stored locally and processed for recognition.</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center">
+          <i class="fas fa-cogs fa-lg"></i>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold">Real-Time Detection</h4>
+          <p class="mt-1 text-slate-600">Live face scanning automatically marks attendance with instant visual feedback.</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center">
+          <i class="fas fa-clipboard-list fa-lg"></i>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold">Attendance Logs</h4>
+          <p class="mt-1 text-slate-600">Get daily reports with timestamps and names. Export data for faculty insights.</p>
+        </div>
+      </div>
+      <div class="flex items-start space-x-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center">
+          <i class="fas fa-wifi-slash fa-lg"></i>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold">Works Offline</h4>
+          <p class="mt-1 text-slate-600">Designed for classroom environments. No internet needed for core detection to work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="card animate-fade text-center">
+    <h3 class="text-3xl font-bold text-blue-700 mb-8">Technology Stack</h3>
+    <div class="flex justify-center items-center flex-wrap gap-4">
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Next.js</span>
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Firebase</span>
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Tailwind CSS</span>
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">TypeScript</span>
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Python</span>
+      <span class="bg-blue-50 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Genkit</span>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="card animate-fade text-center">
+    <h3 class="text-3xl font-bold text-blue-700 mb-8">Project Screenshots</h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div>
+        <img src="https://via.placeholder.com/400x300?text=Face+Registration" alt="Face Registration Screen" class="rounded-lg shadow-md hover:scale-105 transition-all duration-300 w-full">
+        <p class="text-sm text-slate-500 mt-3 font-medium">1. Face Registration</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/400x300?text=Live+Check-in" alt="Live Check-in Screen" class="rounded-lg shadow-md hover:scale-105 transition-all duration-300 w-full">
+        <p class="text-sm text-slate-500 mt-3 font-medium">2. Live Check-in</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/400x300?text=Success+Popup" alt="Success Popup" class="rounded-lg shadow-md hover:scale-105 transition-all duration-300 w-full">
+        <p class="text-sm text-slate-500 mt-3 font-medium">3. Success Confirmation</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/400x300?text=Log+Export" alt="Attendance Log Export" class="rounded-lg shadow-md hover:scale-105 transition-all duration-300 w-full">
+        <p class="text-sm text-slate-500 mt-3 font-medium">4. Log Export</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full bg-gradient-to-r from-blue-900 to-indigo-950 text-white py-6 shadow-inner">
+  <div class="text-center text-sm">
+    © 2025 Agile Assembly | FaceCheck In Project. All rights reserved.
+  </div>
+</footer>
+
+<!-- Scroll Animation -->
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-fade').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

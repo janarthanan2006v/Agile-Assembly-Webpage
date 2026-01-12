@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agile Assembly Product Development</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            position: relative;
+            padding-top: 80px; /* Adjusted padding for the single fixed header */
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            opacity: 0; /* Set opacity to 0 to make it fully transparent */
+            z-index: -1;
+        }
+
+        /* Container for Fixed Headers */
+        .fixed-header-container {
+            position: fixed; /* Make the container fixed */
+            top: 0; /* Pin it to the top */
+            left: 0; /* Pin it to the left */
+            width: 100%; /* Make it span the full width */
+            z-index: 1000; /* Ensure headers are above other content */
+            transition: box-shadow 0.3s ease-in-out; /* Smooth transition for shadow */
+        }
+
+        .fixed-header-container.header-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow when scrolled */
+        }
+
+        /* First Header: Red Background - now contains all navigation */
+        .top-red-header {
+            background-color: #CC0033; /* Red background */
+            padding: 0.75rem 1.5rem;
+            color: white;
+            display: flex;
+            justify-content: space-between; /* Align logo left, nav right */
+            align-items: center;
+            width: 100%;
+        }
+
+        .top-red-header .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-red-header .logo-section img {
+            height: 64px; /* Adjust logo height */
+            width: auto;
+        }
+
+        /* Styles for navigation links within the red header */
+        .top-red-header .main-nav-links {
+            display: flex;
+            gap: 1rem; /* Increased space between navigation items */
+            flex-wrap: wrap;
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        .top-red-header .main-nav-links a {
+            color: white; /* White text for buttons on red background */
+            font-weight: 500;
+            padding: 0.5rem 1rem; /* Increased padding for buttons */
+            border: 1px solid white; /* White border for buttons */
+            border-radius: 0.25rem; /* Slightly rounded corners */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            font-size: 0.9rem; /* Slightly larger font size for buttons */
+        }
+
+        .top-red-header .main-nav-links a:hover {
+            background-color: white; /* White background on hover */
+            color: #CC0033; /* Red text on hover */
+        }
+
+        /* Existing styles for content sections */
+        .page-section {
+            display: none; /* All page sections are hidden by default */
+            min-height: calc(100vh - 80px); /* Make all page sections fill the screen when active */
+            overflow-y: auto; /* Allow scrolling within the page section if content overflows */
+            box-sizing: border-box; /* Include padding in height calculation */
+            position: relative; /* ADDED: Allows absolute positioning of children */
+        }
+        .page-section.active {
+            display: block; /* Active page section is shown */
+        }
+
+        /* NEW CSS for animated quote */
+        .animated-agile-quote-container {
+            position: absolute; /* ADDED: For overlaying without affecting layout */
+            top: 0;            /* ADDED */
+            left: 0;           /* ADDED */
+            width: 100%;       /* ADDED */
+            z-index: 50;       /* ADDED: To ensure it's above other content */
+            padding: 0.5rem 0; /* Vertical padding to give height */
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .animated-agile-quote {
+            display: inline-block;
+            animation: marquee-rtl 25s linear infinite; /* Infinite loop, medium speed */
+            font-size: 1.6rem; /* INCREASED FONT SIZE */
+            font-weight: 600; /* BOLDER TEXT */
+            color: black; /* CHANGED TO BLACK */
+            padding-left: 100%; /* Start text off-screen to the right */
+            padding-right: 2rem; /* Add some space at the end of the text before it repeats */
+        }
+        
+        /* Animation for the gear icons */
+        .animated-agile-quote .gear-icon {
+            display: inline-block; /* Ensure the gear is treated as inline block */
+            animation: rotate-gear 2s linear infinite; /* Rotate every 2 seconds */
+            margin: 0 0.25rem; /* Space around the gear */
+        }
+
+        .animated-agile-quote .gear-small {
+            font-size: 1.2em; /* Smaller gear */
+        }
+        .animated-agile-quote .gear-medium {
+            font-size: 1.5em; /* Medium gear */
+        }
+        .animated-agile-quote .gear-large {
+            font-size: 1.8em; /* Larger gear */
+        }
+
+        @keyframes rotate-gear {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes marquee-rtl {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); } /* Move completely off-screen to the left */
+        }
+        /* END NEW CSS for animated quote */
+
+        /* Adjusted padding-top for main content on home page */
+        #home-page main {
+            padding-top: 4.25rem; /* ADDED: Explicit padding-top to compensate for absolute marquee */
+        }
+
+
+        /* New styles for feature boxes (content always visible, no image) */
+        .feature-box {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .feature-box:hover {
+            transform: none; /* No transform on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep original shadow */
+        }
+
+        .feature-box h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #CC0033;
+            margin-bottom: 0.75rem;
+        }
+        .feature-box p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 0.5rem; /* Add some space between title and description */
+        }
+
+
+        /* Styles for Agile Methodologies Section - Image Display */
+        .agile-methodology-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem auto;
+            max-width: 100%; /* Increased max width to show full screen */
+        }
+        .agile-methodology-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styles for Developer Profiles */
+        .developer-profile-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem; /* Decreased padding to reduce height */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .developer-profile-card img {
+            width: 120px; /* Decreased image size */
+            height: 120px; /* Decreased image size */
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem; /* Decreased space below image */
+            border: 4px solid #CC0033;
+        }
+        .developer-profile-card h3 {
+            font-size: 1.75rem; /* Slightly decreased font for names but still prominent */
+            font-weight: bold;
+            color: #1A3B6A;
+            margin-bottom: 0.25rem; /* Decreased space below name */
+        }
+        .developer-profile-card .department {
+            font-size: 1.1rem; /* Slightly decreased font for department */
+            color: #CC0033;
+            margin-bottom: 0.75rem; /* Decreased space below department */
+            font-weight: 600;
+        }
+        .developer-profile-card .projects-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 0.5rem; /* Decreased space above project list */
+            text-align: left;
+            width: 100%;
+        }
+        .developer-profile-card .projects-list li {
+            font-size: 0.95rem; /* Decreased font for project items */
+            color: #333;
+            margin-bottom: 0.25rem; /* Decreased space between project items */
+            padding-left: 1.25rem; /* Adjusted padding for bullet point */
+            position: relative;
+        }
+        .developer-profile-card .projects-list li::before {
+            content: '•';
+            color: #CC0033;
+            position: absolute;
+            left: 0.25rem; /* Adjusted position for bullet point */
+            top: 0;
+            font-size: 1.1em; /* Slightly smaller bullet point */
+        }
+        .developer-profile-card .project-title {
+            font-weight: bold;
+            color: #555;
+        }
+        .developer-profile-card .project-description {
+            font-size: 0.85rem; /* Decreased font for description */
+            color: #777;
+            margin-left: 0.5rem;
+        }
+
+        /* Developers Page overall container */
+        #developers-page {
+            margin-top: 0; /* Removed margin-top as page-section now handles padding-top */
+        }
+
+        /* NEW CSS for Developer Section Container to make them stack vertically */
+        .developers-stack-container {
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            gap: 2rem; /* Decreased space between each developer card for compactness */
+            padding: 0 1.5rem; /* Adjusted horizontal padding for spacing from edges */
+            max-width: 1000px; /* Increased max-width for the entire stack container for more width */
+            margin: 0 auto; /* Center the stack container */
+        }
+        /* End NEW CSS */
+
+        /* Styles for the new Projects Page */
+        #projects-page {
+            margin-top: 0; /* Removed margin-top as page-section now handles padding-top */
+        }
+        #projects-page .project-item {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #projects-page .project-item h3 {
+            font-size: 2rem;
+            color: #CC0033;
+            margin-bottom: 1rem;
+        }
+        #projects-page .project-item p {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Styles for the About section as a separate slide */
+        #infoSection {
+            background-color: #f3f4f6; /* Light gray background */
+            padding: 4rem 1rem; /* Increased padding for more vertical space */
+            margin: 0 auto; /* Center the section */
+            max-width: none; /* Remove max-width constraint */
+            width: 100%; /* Ensure full width */
+            /* min-height is now handled by .page-section */
+            display: flex;
+            align-items: center; /* Vertically center content */
+            justify-content: center; /* Horizontally center content */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+        #infoSection .about-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem; /* Space between image and text */
+            max-width: 1200px; /* Max width for content inside the section */
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            #infoSection .about-content-wrapper {
+                flex-direction: row; /* Row layout on larger screens */
+                justify-content: space-between;
+            }
+        }
+
+        /* Animation for content on scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* About text slideshow animation */
+        .about-text-slide {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .about-text-slide.slide-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments for headers */
+        @media (max-width: 1024px) {
+            .top-red-header {
+                flex-direction: column;
+                align-items: center; /* Center items when stacked */
+                gap: 0.5rem;
+                padding: 0.75rem 1rem;
+            }
+            .top-red-header .logo-section {
+                width: 100%;
+                justify-content: center;
+            }
+            .top-red-header .main-nav-links {
+                width: 100%;
+                justify-content: center;
+                gap: 0.75rem; /* Smaller gap for wrapped links */
+            }
+            /* Adjust padding-top for body on smaller screens if headers stack */
+            body {
+                padding-top: 100px; /* Adjust based on new single header height */
+            }
+            /* Adjust developers-stack-container padding for smaller screens */
+            .developers-stack-container {
+                padding: 0 1rem; /* Smaller padding on smaller screens */
+            }
+            #infoSection .about-content-wrapper img {
+                width: 300px; /* Smaller image on mobile */
+                height: 300px;
+            }
+        }
+
+        /* New styles for Services Section */
+        #services-section {
+            background-color: #ffffff; /* White background for services */
+            padding: 4rem 1rem;
+            margin: 0 auto;
+            max-width: none;
+            width: 100%;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column; /* Stack title and content vertically */
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-align: center; /* Center the heading */
+        }
+
+        #services-section .services-content-wrapper {
+            display: flex;
+            flex-direction: column; /* Default to column for small screens */
+            align-items: center;
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 2rem; /* Space below heading */
+        }
+
+        @media (min-width: 768px) {
+            #services-section .services-content-wrapper {
+                flex-direction: row; /* Row layout on larger screens */
+                justify-content: center; /* Center content horizontally */
+                align-items: flex-start; /* Align items to the top for text flow */
+            }
+        }
+
+        #services-section .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1; /* Distribute space equally */
+            padding: 1rem;
+        }
+
+        #services-section .service-icon {
+            background-color: #CC0033; /* Red background for icons */
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 2.5rem; /* Icon size */
+            color: white; /* White icon color */
+        }
+
+        #services-section .service-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1A3B6A; /* Dark blue for titles */
+            margin-bottom: 0.5rem;
+        }
+
+        #services-section .service-description-text {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        #services-section .service-description-text.slide-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Styles for the three dots */
+        .service-dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .service-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #CC0033; /* Red color for dots */
+            border-radius: 50%;
+        }
+
+        /* Section after services - now just a container for content */
+        #perfect-product-section {
+            padding: 2rem 1rem; /* Padding for the overall section, not the red background */
+            margin: 0 auto;
+            max-width: none;
+            width: 100%;
+            display: flex; /* Use flexbox for centering content */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-align: center;
+            color: white; /* Default text color for the section */
+        }
+
+        /* Inner container for the content with red background and full width */
+        #perfect-product-content {
+            background-color: #1A3B6A; /* Changed to blue */
+            padding: 6rem 2rem; /* Adjusted vertical padding to match image */
+            width: 100%; /* Full width */
+            max-width: none; /* Ensure it touches full left/right */
+            box-sizing: border-box;
+            border-radius: 0; /* Removed border-radius to make it sharp */
+            box-shadow: none; /* Removed shadow */
+        }
+
+        #perfect-product-section h2 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        #perfect-product-section p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #perfect-product-section .get-started-button {
+            background-color: white;
+            color: #1A3B6A;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        #perfect-product-section .get-started-button:hover {
+            background-color: #CC0033; /* Change to red on hover */
+            color: white;
+        }
+
+        /* Entrance-Tilt Animation */
+@keyframes entranceTilt {
+    0% {
+        opacity: 0;
+        transform: rotateY(-30deg) translateY(50px); /* Tilt and drop the box */
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) translateY(0); /* End with the box upright and in place */
+    }
+}
+
+/* Scroll Arc Animation */
+@keyframes scrollArc {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.8); /* Start from below and smaller */
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.05); /* Midway through arc, scale slightly bigger */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1); /* End at original position and normal size */
+    }
+}
+
+/* Apply the animations to the development items */
+.development-item {
+    animation: scrollArc 1s ease-out forwards; /* Apply the scroll arc animation */
+}
+
+.entrance-tilt {
+    animation: entranceTilt 1s ease-out forwards; /* Apply the entrance-tilt animation */
+}
+
+/* Animation Trigger for Elements Coming into View */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* When the element is visible, add the 'visible' class to trigger animation */
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+        /* Entrance Tilt Animation */
+@keyframes entranceTilt {
+    0% {
+        opacity: 0;
+        transform: rotateY(-30deg) translateY(50px); /* Tilt and drop the box */
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) translateY(0); /* End with the box upright and in place */
+    }
+}
+
+/* Apply the entrance-tilt animation to the project containers */
+.entrance-tilt {
+    animation: entranceTilt 1s ease-out forwards;
+}
+
+/* Different background colors for the project containers */
+.bg-gray-300 {
+    background-color: #e0e0e0; /* Grey background */
+}
+
+.bg-red-100 {
+    background-color: #fce4e4; /* Light red background */
+}
+
+.bg-dark-red {
+    background-color: #b71c1c; /* Dark red background */
+}
+
+.bg-gray-400 {
+    background-color: #bdbdbd; /* Slightly darker grey */
+}
+
+/* For project title, image, and description, ensuring individual animations */
+.project-content {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: showProject 1s ease-in-out forwards;
+}
+
+.project-img {
+        max-height: 250px; /* Set the max height of the image */
+        width: 100%; /* Ensure it takes the full width of its container */
+        object-fit: cover; /* Ensures the image covers the container while maintaining its aspect ratio */
+        border-radius: 0.5rem; /* Optional: Rounded corners for the image */
+    }
+
+.project-title {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInFromLeft 0.6s ease-in-out forwards 0.7s; /* Slide in the title */
+}
+
+.project-description {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: slideInFromLeft 0.6s ease-in-out forwards 1.2s; /* Slide in the description */
+}
+
+/* The keyframes for content sliding in */
+@keyframes showProject {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%); /* Move half the track width to loop seamlessly */
+            }
+        }
+        /* Entrance Spin Animation */
+        @keyframes entranceSpin {
+            0% {
+                opacity: 0;
+                transform: rotate(360deg) translateY(50px); /* Start with a full rotation and a slight drop */
+            }
+            100% {
+                opacity: 1;
+                transform: rotate(0deg) translateY(0); /* End with no rotation and original position */
+            }
+        }
+
+        /* Apply Entrance Spin to Feature Items */
+        .feature-item {
+            animation: entranceSpin 1.2s ease-out forwards; /* Apply the animation */
+        }
+
+        /* Animation Trigger for Elements Coming into View */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        /* When the element is visible, add the 'visible' class to trigger animation */
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Scroll Arc Animation */
+@keyframes scrollArc {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.8); /* Start from below and smaller */
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.05); /* Midway through arc, scale slightly bigger */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1); /* End at original position and normal size */
+    }
+}
+
+/* Apply the scroll-arc animation to the project containers */
+.arc-scroll {
+    animation: scrollArc 1s ease-out forwards;
+}
+
+/* Animation Trigger for Elements Coming into View */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* When the element is visible, add the 'visible' class to trigger animation */
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+    </style>
+    </head>
+<body>
+
+<div class="fixed-header-container" id="fixedHeaderContainer">
+    <header class="top-red-header">
+        <div class="logo-section">
+            <img src="Prince-Logo-scaled.png" alt="College Logo">
+            <div>
+                <h1 class="text-xl font-bold text-white">AGILE ASSEMBLY</h1>
+            </div>
+        </div>
+        <nav class="main-nav-links">
+            <a href="#home-page">Home</a>
+            <a href="#info-page">About</a>
+            <a href="#features-page">Features</a>
+            <a href="#dashboard-page">Alumni</a>
+            <a href="#developers-page">Developers</a>
+            <a href="#projects-page">Projects</a>
+        </nav>
+    </header>
+</div>
+
+<div id="page-content-wrapper">
+
+    <div id="home-page" class="page-section active">
+        <div class="animated-agile-quote-container">
+            <p class="animated-agile-quote">
+                <span class="gear-icon gear-small">&#9881;</span>
+                <span class="gear-icon gear-medium"> &#9881;</span> Agile is not a methodology, it's a mindset. It's a way of thinking that values individuals and interactions over processes and tools
+                <span class="gear-icon gear-medium">&#9881;</span>
+                <span class="gear-icon gear-large">&#9881;</span>
+            </p>
+        </div>
+        <main class="w-full flex flex-col md:flex-row items-center justify-center min-h-[calc(100vh-80px)] p-6 pt-[4.25rem]"> <div class="bg-slate-50 bg-opacity-90 p-8 rounded-lg flex-1 mr-8 text-left max-w-3xl"> <h2 class="text-7xl font-extrabold text-black mb-2">Welcome to the <span class="text-rose-600">Agile Assembly</span> Portal</h2>
+                <p class="mt-3 text-xl font-sans text-gray-800 leading-relaxed">Developed exclusively for Prince Shri Venkateshvara Padmavathy Engineering College.<br/>
+                    This portal aims to streamline your access to study materials, resources, and information.
+                </p>
+            </div>
+            <div class="flex-shrink-0 mt-8 md:mt-0"> <img src="czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvay1wLTE4OS1leWUtMDAwMjc1LmpwZw.jpg" alt="Welcome Image" class="rounded-full w-[500px] h-[500px] object-cover drop-shadow-md shadow-lg"> </div>
+        </main>
+
+        <section id="infoSection" class="page-section">
+            <div class="about-content-wrapper">
+                <div class="flex-shrink-0 order-1 md:order-1"> <img src="image.png" alt="Collaborative Team" class="w-[500px] h-[500px] rounded-full object-cover drop-shadow-md shadow-xl transition-shadow duration-300 hover:shadow-2xl"> </div>
+                <div class="flex-1 text-left order-2 md:order-2"> <h2 class="text-4xl font-bold text-rose-600 mb-4">About the Agile Assembly Product Development Portal</h2> <p class="mt-3 text-2xl leading-relaxed about-text-slide">The Agile Assembly Product Development Portal is designed exclusively for students, faculty, and staff of Prince Shri Venkateshvara Padmavathy Engineering College.</p>
+                    <p class="mt-3 text-2xl leading-relaxed about-text-slide">It aims to optimize academic life, streamline access to labs, and foster seamless collaboration across departments.</p>
+                    <p class="mt-3 text-2xl leading-relaxed about-text-slide">Here’s how this portal benefits the college and its stakeholders:</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="services-section" class="page-section animate-on-scroll">
+            <h2 class="text-4xl font-bold text-rose-600 mb-4">Our Services</h2>
+            <div class="service-dots">
+                <div class="service-dot"></div>
+                <div class="service-dot"></div>
+                <div class="service-dot"></div>
+            </div>
+            <div class="services-content-wrapper">
+                <div class="service-item">
+                    <div class="service-icon">🛠️</div>
+                    <h3 class="service-title">Product Development</h3>
+                    <p class="service-description-text">Modular, iterative development of software and hardware products tailored to academic and administrative needs.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🏠</div>
+                    <h3 class="service-title">Infrastructure Management</h3>
+                    <p class="service-description-text">Optimized management of lab resources, network infrastructure, and digital learning environments.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">📈</div>
+                    <h3 class="service-title">Performance Analytics</h3>
+                    <p class="service-description-text">Data-driven insights into student performance, faculty engagement, and resource utilization for continuous improvement.</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🤝</div>
+                    <h3 class="service-title">Collaborative Solutions</h3>
+                    <p class="service-description-text">Tools and platforms designed to enhance communication and collaboration among students, faculty, and administration.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="perfect-product-section" class="page-section animate-on-scroll">
+            <div id="perfect-product-content">
+                <h2>Dreaming of Your Perfect Product?</h2>
+                <p>"Agile is not just a methodology; it's a mindset that embraces change, fosters collaboration, and delivers continuous value."</p>
+                <a href="#" class="get-started-button">GET STARTED TODAY</a>
+            </div>
+        </section>
+
+        <section class="content rounded-lg mt-10 p-4 bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-6 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2 class="mt-4 font-bold">College Authorities</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-6">
+                    <div class="text-center">
+                        <img src="  IMG-20250703-WA0009.jpg" alt="Chairman" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.k. Vasudevan</h3>
+                        <p class="text-gray-700">Chairman – Provides visionary leadership and ensures the college achieves its long-term goals and mission.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="IMG-20250703-WA0012.jpg" alt="Vice Chairman" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.V. Vishnu Karthik</h3>
+                        <p class="text-gray-700">Vice Chairman – Provides operational support aligning institutional objectives with global standards of engineering education.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="IMG-20250703-WA0011.jpg" alt="Principal" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.G. Indira</h3>
+                        <p class="text-gray-700">Principal – Guiding academic excellence and ensuring quality standards across the institution.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="IMG-20250703-WA0010.jpg" alt="Dean" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.V. Mahalakshmi</h3>
+                        <p class="text-gray-700">Dean – Oversees academic curriculum and promotes holistic student growth and learning outcomes across departments.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="content rounded-lg mt-10 p-4 bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-6 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2>🎓 In Summary</h2>
+                <p class="mt-3">With the Agile Assembly Product Development Portal, Prince Shri Venkateshvara Padmavathy Engineering College aims to redefine education by creating an intelligent and connected ecosystem for its students, staff, and stakeholders. The portal improves access, collaboration, and transparency, making education more enjoyable and productive for every member of the college community.</p>
+            </div>
+        </section>
+
+        <section id="development-section" class="page-section animate-on-scroll">
+    <h2 class="text-3xl font-bold text-rose-600 mb-8 text-center pt-8">Development</h2>
+    
+    <div class="development-item entrance-tilt mb-10 p-8 rounded-lg shadow-lg bg-gray-300">
+        <h3 class="text-2xl font-bold text-rose-600">Software Development</h3>
+        <p class="text-lg text-gray-700">Building innovative software solutions tailored to academic needs.</p>
+    </div>
+
+    <div class="development-item entrance-tilt mb-10 p-8 rounded-lg shadow-lg bg-red-100">
+        <h3 class="text-2xl font-bold text-rose-600">Hardware Development</h3>
+        <p class="text-lg text-gray-700">Designing and developing hardware systems for educational purposes.</p>
+    </div>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <div class="carousel-slide"><img src="czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvay1wLTE4OS1leWUtMDAwMjc1LmpwZw.jpg" alt="Development Image 1"></div>
+                    <div class="carousel-slide"><img src="1743266550127.jpeg" alt="Development Image 2"></div>
+                    <div class="carousel-slide"><img src=" agile_ways_of_working_techniques_for_effective_project_delivery_slide01.jpg" alt="Development Image 3"></div>
+                    <div class="carousel-slide"><img src=" agile-project-management-tools.jpg" alt="Development Image 4"></div>
+                    <div class="carousel-slide"><img src=" 23746cec-3a2e-4de5-bc11-b3ddb28cffa5.jpg" alt="Development Image 5"></div>
+                    <div class="carousel-slide"><img src=" businessman-working-on-virtual-touchscreen-600nw-2457134735.png" alt="Development Image 6"></div>
+                    <div class="carousel-slide"><img src=" 66d7f27b3b18b68e3781c246_a42c395040c3a2c2d0d78887fb81de96cba98375-1200x800.png" alt="Development Image 7"></div>
+                    <div class="carousel-slide"><img src=" task-process-fast-change-concept-600nw-2477814765.png" alt="Development Image 8"></div>
+                    <div class="carousel-slide"><img src=" images (1).jpeg" alt="Development Image 9"></div>
+                    <div class="carousel-slide"><img src=" czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvay1wLTE4OS1leWUtMDAwMjc1LmpwZw.jpg" alt="Development Image 1"></div>
+                    <div class="carousel-slide"><img src=" 1743266550127.jpeg" alt="Development Image 2"></div>
+                    <div class="carousel-slide"><img src=" agile_ways_of_working_techniques_for_effective_project_delivery_slide01.jpg" alt="Development Image 3"></div>
+                    <div class="carousel-slide"><img src=" agile-project-management-tools.jpg" alt="Development Image 4"></div>
+                    <div class="carousel-slide"><img src=" 23746cec-3a2e-4de5-bc11-b3ddb28cffa5.jpg" alt="Development Image 5"></div>
+                    <div class="carousel-slide"><img src=" businessman-working-on-virtual-touchscreen-600nw-2457134735.png" alt="Development Image 6"></div>
+                    <div class="carousel-slide"><img src=" 66d7f27b3b18b68e3781c246_a42c395040c3a2c2d0d78887fb81de96cba98375-1200x800.png" alt="Development Image 7"></div>
+                    <div class="carousel-slide"><img src=" task-process-fast-change-concept-600nw-2477814765.png" alt="Development Image 8"></div>
+                    <div class="carousel-slide"><img src=" images (1).jpeg" alt="Development Image 9"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="info-page" class="page-section">
+    <div class="animated-agile-quote-container">
+            <p class="animated-agile-quote">
+                <span class="gear-icon gear-small">&#9881;</span>
+                <span class="gear-icon gear-medium"> &#9881;</span> Agile is not a methodology, it's a mindset. It's a way of thinking that values individuals and interactions over processes and tools
+                <span class="gear-icon gear-medium">&#9881;</span>
+                <span class="gear-icon gear-large">&#9881;</span>
+            </p>
+        </div>
+        <section class="max-w-5xl mx-auto mt-10 p-8 rounded-lg bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-8 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2 class="text-2xl font-bold text-rose-600 mb-6"> Director and Founder </h2>
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <img src="Venkat sir.jpg" alt="Director" class="w-32 h-32 rounded-full object-cover drop-shadow-md">
+                    <div>
+                        <h3 class="mt-4 text-2xl font-bold">Dr.D. Venkat</h3>
+                        <p class="mt-2 text-lg text-gray-700">Agile Director – Dr. D. Venkat leads the agile development initiatives within the college, providing guidance and fostering innovation in both academic and administrative operations. He works alongside faculty, staff, and students to implement agile methodologies that enhance efficiency, collaboration, and continuous improvement across all college functions. Dr. Venkat’s role ensures that the college adopts modern, flexible approaches to project management, making it more adaptive and responsive to change.</p>
+                        <p class="mt-4 text-lg text-gray-700">Under his leadership, the agile principles are applied to various projects, from curriculum development to administrative workflows. He encourages teams to work collaboratively, iterate quickly, and adapt to feedback, which ultimately results in higher-quality educational experiences and greater operational efficiency. Dr. Venkat also promotes the use of digital tools to facilitate seamless communication, project tracking, and reporting within the college's agile ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <section class="content rounded-lg mt-10 p-4 bg-opacity-30 animate-on-scroll">
+    <div class="bg-slate-50 p-8 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+        <h2 class="text-3xl font-bold text-rose-600 mb-6 text-center">Overall Coordinator</h2>
+        
+        <!-- Overall Coordinator Box -->
+        <div class="text-center mb-10">
+            <div class="p-8 rounded-lg shadow-lg">
+                <img src=" WhatsApp Image 2025-07-03 at 04.28.28_1b90ddfe.jpg" alt="Dr. Preetha" class="w-40 h-40 mx-auto rounded-full object-cover drop-shadow-md">
+                <h3 class="mt-4 text-2xl font-bold ">Dr. Preetha</h3>
+                <p class="mt-2 text-lg text-gray-700">Overall Coordinator – Dr. Preetha leads the coordination efforts across all departments, ensuring smooth communication and collaboration between faculty, students, and administration. With her visionary leadership, she helps in shaping the academic and operational strategies of the institution. She plays a vital role in the planning and execution of educational programs and resources to ensure all goals and objectives of the institution are achieved.</p>
+                <p class="mt-4 text-lg text-gray-700">In addition to her administrative role, Dr. Preetha also works closely with the college leadership to enhance the overall student experience, ensuring that all educational initiatives align with the college’s long-term vision. She encourages faculty and staff to foster a collaborative environment that promotes excellence in both teaching and learning.</p>
+            </div>
+        </div>
+
+        <!-- IT & CSE Coordinators Box -->
+        <h3 class="text-2xl font-bold text-rose-600 text-center mb-6">IT Coordinator & CSE Coordinator</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="text-center p-8 rounded-lg shadow-lg">
+                <img src=" WhatsApp Image 2025-07-11 at 05.11.53_b4841042.jpg" alt="Mrs. Revathy" class="w-40 h-40 mx-auto rounded-full object-cover drop-shadow-md">
+                <h3 class="mt-4 text-2xl font-bold ">Mrs. Revathy</h3>
+                <p class="mt-2 text-lg text-gray-700">IT Coordinator – Mrs. Revathy plays an integral role in managing and optimizing the college's IT infrastructure. She ensures that all the technology and tools necessary for effective learning and teaching are readily available and functioning seamlessly. Her responsibilities include overseeing lab setups, ensuring smooth operation of all software and hardware systems, and troubleshooting technical issues that arise in day-to-day operations.</p>
+                <p class="mt-4 text-lg text-gray-700">Under her leadership, the IT department is constantly exploring new technologies and innovations to enhance the learning experience. She ensures that students and faculty have access to the best digital tools and platforms to support academic excellence and research.</p>
+            </div>
+            <div class="text-center p-8 rounded-lg shadow-lg">
+                <img src=" WhatsApp Image 2025-07-11 at 04.56.13_94e51b17.jpg" alt="Uma Mageshwari" class="w-40 h-40 mx-auto rounded-full object-cover drop-shadow-md">
+                <h3 class="mt-4 text-2xl font-bold ">Mrs. Uma Mageshwari</h3>
+                <p class="mt-2 text-lg text-gray-700">CSE Coordinator – Mrs. Uma Mageshwari is responsible for managing the Computer Science and Engineering department, ensuring the smooth functioning of academic programs, and promoting innovation in research. She works closely with the faculty to develop the curriculum and facilitate interdisciplinary collaboration between students and industry professionals. Her primary focus is on ensuring that the department stays at the forefront of technological advancements and industry standards.</p>
+                <p class="mt-4 text-lg text-gray-700">In addition to her academic role, Uma also coordinates internship and placement opportunities for students, fostering relationships with top tech companies. Her goal is to equip students with the skills necessary to thrive in an ever-evolving tech landscape and guide them toward successful careers in IT and software development.</p>
+            </div>
+        </div>
+
+        <!-- Research Funding & Incubation Support Box -->
+        <h3 class="text-2xl font-bold text-rose-600 text-center mb-6">Research Funding & Incubation Support</h3>
+        <div class="text-center p-8 rounded-lg shadow-lg">
+            <img src="Mercilin_mam.jpg" alt="Mercilin" class="w-40 h-40 mx-auto rounded-full object-cover drop-shadow-md">
+            <h3 class="mt-4 text-2xl font-bold ">Dr.X.Mercilin Raajini</h3>
+            <p class="mt-2 text-lg text-gray-700">Research Funding & Incubation Support – Mercilin is dedicated to promoting research and innovation at the college by facilitating access to research funding and incubation support. She manages the college's research grants, coordinates the application processes, and supports faculty and students in securing financial resources for their research projects. Mercilin also oversees the incubation center, which provides mentorship and resources for innovative startups and projects developed by students and faculty.</p>
+            <p class="mt-4 text-lg text-gray-700">Her efforts help nurture a culture of innovation within the institution, ensuring that academic research is not only supported but also has a direct impact on the industry. She plays a key role in connecting the college with external research bodies and funding agencies, as well as fostering industry-academia partnerships to bridge the gap between theoretical knowledge and real-world applications.</p>
+        </div>
+    </div>
+</section>
+
+        <section class="content rounded-lg mt-10 p-4 bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-6 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2>College Authorities</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-6">
+                     <div class="text-center">
+                        <img src="  IMG-20250703-WA0009.jpg" alt="Chairman" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.k. Vasudevan</h3>
+                        <p class="text-gray-700">Chairman – Provides visionary leadership and ensures the college achieves its long-term goals and mission.</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="  IMG-20250703-WA0012.jpg" alt="Vice Chairman" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.V. Vishnu Karthik</h3>
+                        <p class="text-gray-700">Vice Chairman – Provides operational support aligning institutional objectives with global standards of engineering education.</p>
+                    </div>
+                    <div class="text-center">
+                        <img src="  IMG-20250703-WA0011.jpg" alt="Principal" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.G. Indira</h3>
+                        <p class="text-gray-700">Principal – Guiding academic excellence and ensuring quality standards across the institution.</p>
+                    </div>
+                
+                    <div class="text-center">
+                        <img src="  IMG-20250703-WA0010.jpg" alt="Dean" class="rounded-full w-32 h-32 mx-auto object-cover drop-shadow-md">
+                        <h3 class="mt-2 font-bold">Dr.V. Mahalakshmi</h3>
+                        <p class="text-gray-700">Dean – Oversees academic curriculum and promotes holistic student growth and learning outcomes across departments.</p>
+                    </div>
+        
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="features-page" class="page-section">
+        <section class="content rounded-lg mt-0 p-4 bg-slate-50 bg-opacity-80 animate-on-scroll">
+            <h2>🌟 Feature</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+
+                <div class="feature-box" id="feature-agile-dev">
+                    <h3>Agile Development for Education</h3>
+                    <p>Enables quick and collaborative enhancement of online services and teaching methodologies for students and staff, fostering a dynamic learning environment.</p>
+                </div>
+
+                <div class="feature-box" id="feature-student-empowerment">
+                    <h3>Student Education Empowerment</h3>
+                    <p>Provides comprehensive access to online study materials, examination resources, and interactive learning platforms, empowering students to take control of their education.</p>
+                </div>
+
+                <div class="feature-box" id="feature-lab-access">
+                    <h3>Laboratory Access & System Allocations</h3>
+                    <p>Enables seamless booking of lab slots and efficient access to computer systems across departments, optimizing resource utilization for effective and productive practical sessions.</p>
+                </div>
+
+                <div class="feature-box" id="feature-student-monitoring">
+                    <h3>Student Monitoring System</h3>
+                    <p>Allows faculty and staff to monitor student performance, attendance, and activity, ensuring accountability and promoting academic excellence through timely interventions.</p>
+                </div>
+
+                <div class="feature-box" id="feature-campus-navigation">
+                    <h3>College Campus Navigation</h3>
+                    <p>Offers an interactive map and clear directions across the college campus, making it effortless for students and visitors to locate departments, labs, and facilities efficiently.</p>
+                </div>
+
+                <div class="feature-box" id="feature-class-activity">
+                    <h3>Student Class Activity Monitoring</h3>
+                    <p>Enables teachers and staff to review in-class performance and engagement, leading to a more personalized and productive learning experience for every student.</p>
+                 fungicide. </p>
+                </div>
+
+                <div class="feature-box" id="feature-smart-board">
+                    <h3>Smart Board with Ultra Special Features</h3>
+                    <p>Facilitates interactive lectures and seamless presentations, making learning dynamic and impactful with the latest digital tools and advanced connectivity options available in classrooms.</p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <div id="dashboard-page" class="page-section">
+        <section id="past-developers" class="max-w-5xl mx-auto mt-0 p-4 rounded-lg bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-6 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2 class="text-2xl font-bold text-rose-600 mb-4">Past Year Agile Project Developers</h2>
+                <img src=" WhatsApp Image 2025-06-18 at 23.29.46_cab3da2b.jpg" alt="Developers Group" class="mx-auto w-[300px] rounded-lg">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-4">
+                    <div class="text-center"><h3 class="font-bold mt-2">Britto Y</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Gowtham S</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Dharsan Arunkumar V P</h3><p class="text-gray-700">CSC</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Niranjan R</h3><p class="text-gray-700">CSC</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Raghul K V</h3><p class="text-gray-700">CSC</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Kiruthika A</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Sara R</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Bhavani P</h3><p class="text-gray-700">CSC</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alumni" class="max-w-5xl mx-auto mt-10 p-4 mb-10 rounded-lg bg-opacity-30 animate-on-scroll">
+            <div class="bg-slate-50 p-6 rounded-lg shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+                <h2 class="text-2xl font-bold text-rose-600 mb-4">Alumni Members</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center"><h3 class="font-bold mt-2">Tara Mrithula R</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Harini P</h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Sneha G </h3><p class="text-gray-700">IT</p></div>
+                    <div class="text-center"><h3 class="font-bold mt-2">Pavithra S </h3><p class="text-gray-700">IT</p></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="developers-page" class="page-section">
+        <h2 class="text-3xl font-bold text-rose-600 mb-8 text-center pt-8">Our Talented Agile Developers</h2>
+        <div class="developers-stack-container animate-on-scroll">
+            <div class="developer-profile-card">
+                <img src=" WhatsApp Image 2025-07-07 at 00.23.22_b2222093.jpg" alt="Developer 1">
+                <h3>Suvetha</h3>
+                <p class="department">Information Technology</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Project Alpha:</span> <span class="project-description">Developed a secure college internal communication platform.</span></li>
+                    <li><span class="project-title">Smart Campus Navigation:</span> <span class="project-description">Contributed to the interactive campus map application.</span></li>
+                    <li><span class="project-title">Automated Attendance System:</span> <span class="project-description">Implemented a facial recognition-based attendance solution.</span></li>
+                    <li><span class="project-title">E-Learning Module:</span> <span class="project="project-description">Designed and coded a new module for online course delivery.</span></li>
+                    <li><span class="project-title">Data Analytics Dashboard:</span> <span class="project-description">Created a dashboard for student performance analytics.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src=" WhatsApp Image 2025-07-07 at 00.18.49_4c9c05fd.jpg" alt="Developer 2">
+                <h3>Adarsh G</h3>
+                <p class="department">Computer Science Engineering</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">AI-Powered Tutoring System:</span> <span class="project-description">Developed an adaptive learning AI for personalized tutoring.</span></li>
+                    <li><span class="project-title">Cloud-Based Lab Management:</span> <span class="project-description">Engineered a system for virtual lab resource allocation.</span></li>
+                    <li><span class="project-title">Cybersecurity Threat Detection:</span> <span class="project-description">Built a prototype for real-time network intrusion detection.</span></li>
+                    <li><span class="project-title">Blockchain for Certificates:</span> <span class="project-description">Explored blockchain implementation for secure digital certificates.</span></li>
+                    <li><span class="project-title">Student Feedback Portal:</span> <span class="project-description">Created a system for anonymous student feedback collection.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src="voter id.jpg" alt="Developer 3">
+                <h3>Janarthanan V</h3>
+                <p class="department">Information Technology</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Mobile App for Events:</span> <span class="project-description">Developed a cross-platform mobile app for college events.</span></li>
+                    <li><span class="project-title">Automated Grading System:</span> <span class="project-description">Assisted in developing a system for automated assignment grading.</span></li>
+                    <li><span class="project-title">Resource Booking System:</span> <span class="project="project-description">Implemented a system for booking college resources like projectors.</span></li>
+                    <li><span class="project-title">Gamified Learning Platform:</span> <span class="project="project-description">Contributed to the development of an engaging educational game.</span></li>
+                    <li><span class="project-title">Predictive Analytics for Admissions:</span> <span class="project="project-description">Worked on a model to predict student admission success rates.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src="WhatsApp Image 2025-07-07 at 00.49.33_dc867745.jpg" alt="Developer 4">
+                <h3>Emlyn</h3>
+                <p class="department">Computer Science Engineering</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Smart Classroom Integration:</span> <span class="project-description">Integrated various smart devices into classroom management.</span></li>
+                    <li><span class="project-title">Virtual Lab Assistant:</span> <span class="project-description">Developed an AI assistant for virtual lab troubleshooting.</span></li>
+                    <li><span class="project-title">Peer-to-Peer Learning Network:</span> <span class="project-description">Created a platform for students to collaborate on projects.</span></li>
+                    <li><span class="project-title">Academic Progress Tracker:</span> <span class="project="project-description">Built a tool for students to track their academic milestones.</span></li>
+                    <li><span class="project-title">AI for Plagiarism Detection:</span> <span class="project-description">Researched and prototyped an AI-based plagiarism checker.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src=" WhatsApp Image 2025-07-08 at 10.08.12_b8692226.jpg" alt="Developer 5">
+                <h3>Harshal V T</h3>
+                <p class="department">Information Technology</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Web-Based ERP System:</span> <span class="project-description">Developed modules for college enterprise resource planning.</span></li>
+                    <li><span class="project-title">Network Security Audit Tool:</span> <span class="project-description">Created a tool for auditing college network vulnerabilities.</span></li>
+                    <li><span class="project-title">Cloud Storage Solution:</span> <span class="project="project-description">Implemented a secure cloud storage system for academic documents.</span></li>
+                    <li><span class="project-title">IT Helpdesk Automation:</span> <span class="project="project-description">Automated common IT support tasks using scripting.</span></li>
+                    <li><span class="project-title">Digital Library Portal:</span> <span class="project="project-description">Enhanced the college's digital library search and access features.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src=" WhatsApp Image 2025-07-06 at 23.28.01_10d0909e.jpg" alt="Developer 6">
+                <h3>Harish Kumar</h3>
+                <p class="department">Computer Science Engineering</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Student Information System:</span> <span class="project-description">Contributed to the development of the core SIS functionalities.</span></li>
+                    <li><span class="project-title">Online Exam Proctoring:</span> <span class="project-description">Developed a module for remote exam proctoring.</span></li>
+                    <li><span class="project-title">IT Asset Management:</span> <span class="project-description">Created a system to track and manage IT assets across departments.</span></li>
+                    <li><span class="project-title">Smart Feedback Analysis:</span> <span class="project-description">Used NLP to analyze student feedback for actionable insights.</span></li>
+                    <li><span class="project-title">Campus Wi-Fi Optimization:</span> <span class="project="project-description">Analyzed network data to suggest Wi-Fi performance improvements.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src="krishna_pic.jpg" alt="Developer 7">
+                <h3>Krishna Kumar</h3>
+                <p class="department">Information Technology</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">IoT-Based Energy Monitoring:</span> <span class="project-description">Implemented an IoT solution for monitoring campus energy consumption.</span></li>
+                    <li><span class="project-title">Automated Lab Scheduling:</span> <span class="project-description">Developed a system to optimize lab slot bookings.</span></li>
+                    <li><span class="project-title">Network Intrusion Prevention:</span> <span class="project-description">Assisted in deploying and configuring network security measures.</span></li>
+                    <li><span class="project-title">Data Backup & Recovery System:</span> <span class="project="project-description">Designed and tested a robust data backup solution for college data.</span></li>
+                    <li><span class="project-title">Virtual Reality Campus Tour:</span> <span class="project="project-description">Created a VR experience for prospective students to tour the campus.</span></li>
+                </ul>
+            </div>
+            <div class="developer-profile-card">
+                <img src="yaswanth_pic.jpg" alt="Developer 8">
+                <h3>Yashwanth</h3>
+                <p class="department">Computer Science Engineering</p>
+                <ul class="projects-list">
+                    <li><span class="project-title">Smart Board Software:</span> <span class="project-description">Developed custom software features for interactive smart boards.</span></li>
+                    <li><span class="project-title">Unified Communication Platform:</span> <span class="project-description">Integrated various communication tools into a single platform.</span></li>
+                    <li><span class="project-title">Digital Signage System:</span> <span class="project="project-description">Implemented a system for displaying announcements on campus screens.</span></li>
+                    <li><span class="project-title">Performance Monitoring Tool:</span> <span class="project="project-description">Built a tool to monitor application performance within the portal.</span></li>
+                    <li><span class="project="project-description">AI Chatbot for Queries:</span> <span class="project-description">Developed a chatbot to answer common student and faculty questions.</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section id="projects-page" class="page-section">
+    <div class="animated-agile-quote-container">
+            <p class="animated-agile-quote">
+                <span class="gear-icon gear-small">&#9881;</span>
+                <span class="gear-icon gear-medium"> &#9881;</span> Agile is an attitude, not a technique with boundaries. An attitude has no boundaries, so we wouldn't ask 'can I use agile here', but rather 'how would I act in the agile way here?' or 'how agile can we be, here?'
+                <span class="gear-icon gear-medium">&#9881;</span>
+                <span class="gear-icon gear-large">&#9881;</span>
+            </p>
+        </div>
+    <h2 class="text-3xl font-bold text-rose-600 mb-8 text-center pt-8"> </h2>
+  
+    <!-- Project 1 -->
+    <div class="project-item animate-on-scroll mb-10 p-8 rounded-lg shadow-lg bg-gray-300">
+        <div class="project-content">
+
+        <img src="education1.png" alt="Edu Portal" class="w-full h-auto mb-6 rounded-lg object-cover drop-shadow-md project-img">
+        <h3 class="text-2xl font-bold text-rose-600">Edu Portal</h3>
+        <p class="text-lg text-gray-700">This central portal streamlines access to academic resources, lab bookings, and collaboration tools for students and faculty. The Edu Portal facilitates agile development practices by providing a single point of entry for all essential college services, enhancing efficiency and communication. It integrates study materials, exam schedules, lab availability, and other crucial data to ensure smooth academic operations.</p>
+        <p class="mt-4 text-lg text-gray-700">The portal's user-friendly interface allows students and faculty to easily access resources. It supports personalized features like assignment tracking, grade monitoring, and academic progress reports, helping improve the overall educational experience. By implementing agile methodologies, the Edu Portal continuously evolves to meet the needs of its users.</p>
+        <a href="https://agile25assembly.github.io/prince-edu-portal/" class="text-rose-600 hover:underline text-lg mt-4 inline-block">View Project</a>
+        </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-item animate-on-scroll mb-10 p-8 rounded-lg shadow-lg bg-red-100">
+        <div class="project-content">
+        <img src=" campus-navigation-app.png" alt="Smart Campus Navigation System" class="w-full h-auto mb-6 rounded-lg object-cover drop-shadow-md project-img">
+        <h3 class="text-2xl font-bold text-rose-600">Smart Campus Navigation System</h3>
+        <p class="text-lg text-gray-700">The Smart Campus Navigation System is an interactive, mobile-friendly application designed to provide clear directions and real-time location information for departments, labs, and facilities across the campus. This project aims to improve accessibility and enhance the visitor experience by allowing users to find their way quickly and efficiently through the campus.</p>
+        <p class="mt-4 text-lg text-gray-700">With a user-friendly interface and GPS integration, this app provides turn-by-turn directions and maps of the campus, ensuring students, staff, and visitors can easily navigate between buildings and facilities. It also includes location-based notifications, event information, and academic resources, making it an essential tool for the campus community.</p>
+        <a href="https://link-to-your-project1" class="text-rose-600 hover:underline text-lg mt-4 inline-block">View Project</a>
+        </div>
+    </div>
+        
+
+    <!-- Project 3 -->
+    <div class="project-item animate-on-scroll mb-10 p-8 rounded-lg shadow-lg bg-dark-red">
+        <div class="project-content">    
+        <img src="1723990299036.jpeg" alt="Automated Student Performance Tracker" class="w-full h-auto mb-6 rounded-lg object-cover drop-shadow-md project-img">
+        <h3 class="text-2xl font-bold text-rose-600">Automated Student Performance Tracker</h3>
+        <p class="text-lg text-gray-700">The Automated Student Performance Tracker is a comprehensive system that monitors student academic progress, attendance, and activity. It provides faculty with actionable insights to offer personalized support and ensure timely interventions for student success. This project aims to create a data-driven approach to student monitoring.</p>
+        <p class="mt-4 text-lg text-gray-700">The system allows teachers and staff to track student performance in real-time, identify at-risk students, and provide them with the necessary resources and guidance. Additionally, the system provides reports and analytics to help improve educational strategies and enhance student retention rates.</p>
+        <a href="https://link-to-your-project1" class="text-rose-600 hover:underline text-lg mt-4 inline-block">View Project</a>
+        </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="project-item animate-on-scroll mb-10 p-8 rounded-lg shadow-lg bg-gray-400">
+        <div class="project-content">    
+        <img src="CSE-Lab-Pics-6.png" alt="Integrated Laboratory Management System" class="w-full h-auto mb-6 rounded-lg object-cover drop-shadow-md project-img">
+        <h3 class="text-2xl font-bold text-rose-600">Integrated Laboratory Management System</h3>
+        <p class="text-lg text-gray-700">The Integrated Laboratory Management System streamlines the booking and allocation of laboratory slots and computer systems across departments. This system optimizes resource utilization, reduces conflicts, and ensures productive practical sessions for all departments.</p>
+        <p class="mt-4 text-lg text-gray-700">Faculty and students can easily reserve lab time, track lab availability, and ensure efficient use of resources. The system also helps in managing lab schedules, maintenance, and equipment availability, promoting better organization and utilization of laboratory spaces across the college.</p>
+        <a href="https://link-to-your-project1" class="text-rose-600 hover:underline text-lg mt-4 inline-block">View Project</a>
+        </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="project-item animate-on-scroll mb-10 p-8 rounded-lg shadow-lg bg-red-300">
+        <div class="project-content">
+        <img src="1697191452925.png" alt="Digital Resource Hub with AI Search" class="w-full h-auto mb-6 rounded-lg object-cover drop-shadow-md project-img">
+        <h3 class="text-2xl font-bold text-rose-600">Digital Resource Hub with AI Search</h3>
+        <p class="text-lg text-gray-700">The Digital Resource Hub is an advanced digital library and resource portal that leverages AI-powered search capabilities to provide quick and efficient access to study materials, research papers, and course content. This project aims to transform the way academic resources are accessed by students and faculty.</p>
+        <p class="mt-4 text-lg text-gray-700">With AI-powered search, users can easily find relevant documents and resources, including eBooks, journal articles, and multimedia content. The hub also integrates features such as personalized recommendations based on user preferences and academic needs, helping streamline the research process for both students and faculty members.</p>
+        <a href="https://link-to-your-project1" class="text-rose-600 hover:underline text-lg mt-4 inline-block">View Project</a>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<script>
+    // --- Page Management Elements ---
+    const homePage = document.getElementById('home-page');
+    const dashboardPage = document.getElementById('dashboard-page');
+    const developersPage = document.getElementById('developers-page');
+    const featuresPage = document.getElementById('features-page');
+    const infoPage = document.getElementById('info-page');
+    const projectsPage = document.getElementById('projects-page'); // New Projects Page element
+
+    
+    // --- Function to switch between pages ---
+    function showPage(pageId) {
+        // Hide all page sections first
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+            // Remove 'visible' class from all elements when switching pages
+            section.querySelectorAll('.animate-on-scroll').forEach(el => el.classList.remove('visible'));
+            // Reset about text slides when leaving home page
+            if (section.id === 'infoSection') {
+                section.querySelectorAll('.about-text-slide').forEach(textEl => textEl.classList.remove('slide-in'));
+            }
+            // Reset service description slides when leaving home page
+            if (section.id === 'services-section') {
+                section.querySelectorAll('.service-description-text').forEach(textEl => textEl.classList.remove('slide-in'));
+            }
+        });
+
+        // Show the requested page section
+        let targetPage;
+        if (pageId === 'home') {
+            targetPage = homePage;
+        } else if (pageId === 'dashboard') {
+            targetPage = dashboardPage;
+        } else if (pageId === 'developers') {
+            targetPage = developersPage;
+        } else if (pageId === 'features') {
+            targetPage = featuresPage;
+        } else if (pageId === 'info') {
+            targetPage = infoPage;
+        } else if (pageId === 'projects') {
+            targetPage = projectsPage;
+        }
+
+        if (targetPage) {
+            targetPage.classList.add('active');
+            // Manually trigger animation for elements within the newly active page
+            // This ensures they animate even if not scrolled into view (e.g., if the page is short)
+            targetPage.querySelectorAll('.animate-on-scroll').forEach(el => {
+                // Use a small timeout to allow display:block to apply before animation
+                setTimeout(() => {
+                    el.classList.add('visible');
+                }, 50);
+            });
+
+            // Trigger about text slideshow if it's the infoSection on the home page
+            if (targetPage.id === 'home-page') { // Check if the home-page is active
+                const aboutTextSlides = document.querySelectorAll('#infoSection .about-text-slide');
+                aboutTextSlides.forEach((textEl, index) => {
+                    setTimeout(() => {
+                        textEl.classList.add('slide-in');
+                    }, 500 * (index + 1)); // Delay each sentence
+                });
+
+                // Trigger service description slideshow if it's the services-section on the home page
+                const serviceDescriptionTexts = document.querySelectorAll('#services-section .service-description-text');
+                serviceDescriptionTexts.forEach((textEl, index) => {
+                    setTimeout(() => {
+                        textEl.classList.add('slide-in');
+                    }, 500 * (index + 1)); // Delay each description
+                });
+            }
+
+
+            // Scroll to the top of the newly activated page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // --- Header Shadow on Scroll ---
+    const fixedHeaderContainer = document.getElementById('fixedHeaderContainer');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            fixedHeaderContainer.classList.add('header-shadow');
+        } else {
+            fixedHeaderContainer.classList.remove('header-shadow');
+        }
+    });
+
+    // IntersectionObserver to trigger animations on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible'); // Add the 'visible' class to trigger animation
+        }
+    });
+}, {
+    threshold: 0.5  // Trigger when 50% of the element is in view
+});
+
+// Observe all elements with the 'animate-on-scroll' class
+document.querySelectorAll('.animate-on-scroll').forEach(element => {
+    observer.observe(element);
+});
+
+
+    // --- Event Listeners for Navigation Links ---
+    document.querySelectorAll('.main-nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href').substring(1); // Get ID without '#'
+
+            if (targetId === 'home-page') {
+                showPage('home');
+            } else if (targetId === 'info-page') {
+                showPage('info');
+            } else if (targetId === 'features-page') {
+                showPage('features');
+            }
+            else if (targetId === 'dashboard-page') {
+                showPage('dashboard');
+            } else if (targetId === 'developers-page') {
+                showPage('developers');
+            } else if (targetId === 'projects-page') {
+                showPage('projects');
+            }
+        });
+    });
+
+    // Initialize the page view on load
+    document.addEventListener('DOMContentLoaded', () => {
+        showPage('home'); // Always start on the home page
+    });
+
+</script>
+
+<!-- FOOTER -->
+<footer class="bg-[#CC0033] text-white py-10 mt-16">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+    
+    <!-- Logo & Address -->
+    <div>
+      <img src="Prince-Logo-scaled.png" alt="College Logo" class="w-24 mb-4">
+      <p class="text-sm leading-relaxed">
+        Prince Shri Venkateshwara Padmavathy Engineering College,<br>
+        Ponmar, Chennai - 600073<br>
+        Tamil Nadu, India
+      </p>
+      <p class="mt-2 text-sm">📞 044-24991414</p>
+      <p class="text-sm">✉️ info@psvpec.in</p>
+    </div>
+
+    <!-- Navigation -->
+    <div>
+      <h3 class="text-lg font-semibold border-b border-rose-500 mb-3 inline-block">Quick Links</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#home-page" class="hover:text-rose-300">🏠 Home</a></li>
+        <li><a href="#info-page" class="hover:text-rose-300">📖 About</a></li>
+        <li><a href="#features-page" class="hover:text-rose-300">✨ Features</a></li>
+        <li><a href="#dashboard-page" class="hover:text-rose-300">🎓 Alumni</a></li>
+        <li><a href="#developers-page" class="hover:text-rose-300">💻 Developers</a></li>
+        <li><a href="#projects-page" class="hover:text-rose-300">📁 Projects</a></li>
+      </ul>
+    </div>
+
+    <!-- Social -->
+    <div>
+      <h3 class="text-lg font-semibold border-b border-rose-500 mb-3 inline-block">Connect with Us</h3>
+      <p class="text-sm mb-2">Stay updated on our latest Agile developments:</p>
+      <div class="flex space-x-4 text-xl mt-2">
+        <a href="#" class="hover:text-rose-300"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="hover:text-rose-300"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="hover:text-rose-300"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-rose-300"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center text-xs text-gray-300 mt-10 border-t border-gray-600 pt-4 px-6">
+    &copy; 2025 Agile Assembly | Prince Shri Venkateshwara Padmavathy Engineering College. All rights reserved.
+  </div>
+</footer>
+
+
+</body>
+</html>

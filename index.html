@@ -1,0 +1,1125 @@
+ <!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agile Assembly | Prince College Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The official Agile Assembly Product Development Portal for Prince Shri Venkateshvara Padmavathy Engineering College. Streamlining access to academic resources, labs, and fostering collaboration.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Styles & Font Configuration */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* Light grey background */
+            color: #334155; /* Slate-700 for text */
+        }
+
+        /* Custom Colors for Tailwind */
+        .bg-navy { background-color: #1A3B6A; }
+        .bg-rose-red { background-color: #CC0033; }
+        .text-navy { color: #1A3B6A; }
+        .text-rose-red { color: #CC0033; }
+        .border-rose-red { border-color: #CC0033; }
+        .hover\:bg-rose-red-dark:hover { background-color: #a80029; }
+        .hover\:text-rose-red:hover { color: #CC0033; }
+
+        /* Page Section Management */
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+
+        /* Marquee Animation for Agile Quote */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee-rtl 30s linear infinite;
+            padding-left: 100%;
+        }
+        .gear-icon {
+            display: inline-block;
+            animation: rotate-gear 2s linear infinite;
+            margin: 0 0.5rem;
+            vertical-align: middle;
+        }
+        @keyframes rotate-gear {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes marquee-rtl {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Scroll Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation delay */
+        .animate-on-scroll.delay-1 { transition-delay: 150ms; }
+        .animate-on-scroll.delay-2 { transition-delay: 300ms; }
+        .animate-on-scroll.delay-3 { transition-delay: 450ms; }
+        .animate-on-scroll.delay-4 { transition-delay: 600ms; }
+
+        /* Hamburger Menu Transition */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        img {
+    max-width: 100%;
+    height: auto;
+    }
+     /* Hide scrollbar across all browsers */
+.hide-scrollbar {
+  overflow-x: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: scroll-marquee 30s linear infinite;
+}
+
+.gallery-marquee {
+  display: flex;
+  white-space: nowrap;
+}
+
+.animate-gallery-marquee:hover {
+  animation-play-state: paused;
+}
+
+
+
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+<header id="app-header" class="bg-rose-red sticky top-0 z-50 shadow-lg">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap sm:flex-nowrap justify-between items-center py-4 gap-4">
+      
+      <!-- Logo + Text -->
+      <div class="flex-shrink min-w-0 flex flex-col sm:flex-row sm:items-center sm:gap-4 text-center sm:text-left">
+        <img src="Prince-Logo-scaled.png" alt="College Logo" class="h-14 w-auto rounded-md p-1 mx-auto sm:mx-0">
+        <div class="flex flex-col items-center sm:items-start overflow-hidden">
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight whitespace-nowrap">AGILE ASSEMBLY</h1>
+          <span class="text-xs text-rose-200 truncate w-full sm:w-auto">Prince Shri Venkateshwara Padmavathy Engineering College</span>
+        </div>
+      </div>
+
+      <!-- Mobile Nav Toggle Button -->
+      <div class="sm:hidden">
+        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-white/20 focus:outline-none">
+          <i id="mobile-menu-icon" class="fas fa-bars fa-lg"></i>
+        </button>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden sm:flex items-center flex-nowrap gap-x-4 ml-auto">
+        <a href="#home-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">Home</a>
+        <a href="#info-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">About</a>
+        <a href="#features-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">Features</a>
+        <a href="#dashboard-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">Alumni</a>
+        <a href="#developers-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">Developers</a>
+        <a href="#projects-page" class="nav-link text-white hover:bg-white/20 font-medium px-3 py-2 rounded-md">Projects</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="sm:hidden hidden bg-rose-red border-t border-rose-400/50">
+    <div class="pt-2 pb-3 space-y-1">
+      <a href="#home-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">Home</a>
+      <a href="#info-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">About</a>
+      <a href="#features-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">Features</a>
+      <a href="#dashboard-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">Alumni</a>
+      <a href="#developers-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">Developers</a>
+      <a href="#projects-page" class="nav-link block pl-3 pr-4 py-2 text-base font-medium text-white hover:bg-white/20">Projects</a>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+<main id="page-content-wrapper">
+
+    <div id="home-page" class="page-section active">
+        <section class="relative bg-white overflow-hidden">
+             <div class="marquee-container bg-slate-100 py-2 border-b border-t border-slate-200">
+                <p class="marquee-content font-semibold text-black">
+                    <i class="fas fa-cog gear-icon"></i>
+                    Agile is not a methodology, it's a mindset. It's a way of thinking that values individuals and interactions over processes and tools.  Every project is an opportunity to learn, to figure out problems and challenges, to invent and reinvent.
+                    <i class="fas fa-cog gear-icon"></i>
+                   
+                </p>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="animate-on-scroll">
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-black tracking-tight">
+                            Welcome to the <span class="text-rose-red">Agile Assembly</span> Portal
+                        </h2>
+                        <p class="mt-6 text-lg text-slate-600 max-w-xl">
+                            Developed exclusively for Prince Shri Venkateshvara Padmavathy Engineering College. This portal aims to streamline your access to study materials, resources, and information.
+                        </p>
+                    </div>
+                    <div class="flex justify-center items-center animate-on-scroll delay-1">
+                        <img src="home page.jpg" alt="Welcome Image" class="rounded-full w-80 h-80 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] object-cover shadow-2xl border-8 border-white">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+       <section class="py-20 lg:py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">Our Services</h2>
+      <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">Empowering innovation through every stage of agile development.</p>
+    </div>
+
+    <!-- Horizontal Scroll Wrapper -->
+    <div class="mt-16 overflow-x-auto hide-scrollbar">
+      <div class="flex space-x-6 lg:space-x-8 min-w-max px-2 scroll-smooth snap-x snap-mandatory">
+        
+        <!-- Repeatable Service Card -->
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll">
+          <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+            <i class="fas fa-flag-checkered fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-bold text-navy">Initialization</h3>
+          <p class="mt-2 text-slate-500">Establishing project vision, goals, and scope to kickstart development.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-1">
+          <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+            <i class="fas fa-lightbulb fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-bold text-navy">Brainstorming</h3>
+          <p class="mt-2 text-slate-500">Collaborative idea generation to explore creative solutions.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-2">
+          <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+            <i class="fas fa-search fa-2x"></i>
+          </div>
+          <h3 class="text-xl font-bold text-navy">Research</h3>
+          <p class="mt-2 text-slate-500">Analyzing user needs and validating ideas with academic and market insights.</p>
+        </div>
+        <!-- 4. Design -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-3">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-pencil-ruler fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Design</h3>
+  <p class="mt-2 text-slate-500">Crafting intuitive interfaces and user journeys through prototypes and wireframes.</p>
+</div>
+
+<!-- 5. Development -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-4">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-code fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Development</h3>
+  <p class="mt-2 text-slate-500">Building robust solutions using agile sprints and modular engineering.</p>
+</div>
+
+<!-- 6. Test -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-5">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-vial fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Test</h3>
+  <p class="mt-2 text-slate-500">Verifying performance, reliability, and user experience through rigorous testing.</p>
+</div>
+
+<!-- 7. Incubation -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-6">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-seedling fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Incubation</h3>
+  <p class="mt-2 text-slate-500">Refining and nurturing early-stage products with mentoring and iteration.</p>
+</div>
+
+<!-- 8. Patent -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-7">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-certificate fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Patent</h3>
+  <p class="mt-2 text-slate-500">Protecting intellectual property and ensuring legal ownership of innovations.</p>
+</div>
+
+<!-- 9. Funding -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-8">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-hand-holding-usd fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Funding</h3>
+  <p class="mt-2 text-slate-500">Securing financial support through grants, sponsorships, or investments.</p>
+</div>
+
+<!-- 10. Deployment -->
+<div class="bg-white p-8 rounded-xl shadow-lg text-center flex-shrink-0 w-72 snap-start animate-on-scroll delay-9">
+  <div class="flex items-center justify-center h-16 w-16 rounded-full bg-rose-red text-white mx-auto mb-6">
+    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+  </div>
+  <h3 class="text-xl font-bold text-navy">Deployment</h3>
+  <p class="mt-2 text-slate-500">Releasing validated products to users with monitoring, feedback, and support.</p>
+</div>
+
+
+        <!-- Continue other services in the same format -->
+        <!-- ... Design, Development, Test, Incubation, Patent, Funding, Deployment ... -->
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Event Section -->
+<section class="bg-gray-100 py-10">
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-10">Upcoming Events</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Event 1 -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="event1.jpg" alt="Event 1" class="w-full h-48 object-cover">
+        <div class="p-5">
+          <div class="bg-gray-800 text-white text-center inline-block px-3 py-1 rounded mb-3">
+            <span class="text-lg font-bold">16</span><br>
+            <span class="uppercase text-sm">Aug</span><br>
+            <span class="text-sm">2025</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">AI Transformation using Gen AI and MLL</h3>
+          <p class="text-gray-600 text-sm mb-1">Industry Expert: <strong>RBS WINSAR INFOSOFT</strong></p>
+          <p class="text-gray-600 text-sm mb-1">Guest Lecturer: <strong>Madhu Venkat</strong></p>
+        </div>
+      </div>
+
+      <!-- Event 2 -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="event2jpg.jpg" alt="Event 2" class="w-full h-48 object-cover">
+        <div class="p-5">
+          <div class="bg-gray-800 text-white text-center inline-block px-3 py-1 rounded mb-3">
+            <span class="text-lg font-bold">28</span><br>
+            <span class="uppercase text-sm">Aug</span><br>
+            <span class="text-sm">2025</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Intra College Code Hackathon</h3>
+          <p class="text-gray-600 text-sm mb-1">Cash Prize: <strong>₹5,000</strong></p>
+          <p class="text-gray-600 text-sm">More details updated soon.</p>
+        </div>
+      </div>
+
+      <!-- Event 3 -->
+      <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <img src="event3.jpg" alt="Event 3" class="w-full h-48 object-cover">
+        <div class="p-5">
+          <div class="bg-gray-800 text-white text-center inline-block px-3 py-1 rounded mb-3">
+            <span class="text-lg font-bold">15</span><br>
+            <span class="uppercase text-sm">Sep</span><br>
+            <span class="text-sm">2025</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Intre College Code Hackathon</h3>
+          <p class="text-gray-600 text-sm">More details updated soon.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+        
+        <section class="bg-navy">
+            <div class="max-w-4xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8 animate-on-scroll">
+                <h2 class="text-4xl font-extrabold text-white sm:text-5xl">
+                    Dreaming of Your Perfect Product?
+                </h2>
+                <p class="mt-4 text-lg leading-6 text-indigo-200">"Agile is not just a methodology; it's a mindset that embraces change, fosters collaboration, and delivers continuous value."</p>
+                <a href="#projects-page" class="nav-link mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-navy bg-white hover:bg-indigo-50 sm:w-auto">
+                    GET STARTED TODAY
+                </a>
+            </div>
+        </section>
+        
+        <section class="bg-white py-20 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">Our Visionary Leadership</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">Guiding the institution towards a future of academic and technological excellence.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                    <div class="text-center animate-on-scroll">
+                        <img src="Vasudevan sir.jpg" alt="Chairman Dr.k. Vasudevan" class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg border-4 border-white">
+                        <h3 class="mt-4 text-xl font-bold text-navy">Dr.k. Vasudevan</h3>
+                        <p class="text-rose-red font-medium">Chairman</p>
+                        <p class="mt-2 text-sm text-slate-500">Provides visionary leadership and ensures the college achieves its long-term goals and mission.</p>
+                    </div>
+                    <div class="text-center animate-on-scroll delay-1">
+                        <img src="Vishnu Karthik sir.jpg" alt="Vice Chairman Dr.V. Vishnu Karthik" class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg border-4 border-white">
+                        <h3 class="mt-4 text-xl font-bold text-navy">Dr.V. Vishnu Karthik</h3>
+                        <p class="text-rose-red font-medium">Vice Chairman</p>
+                        <p class="mt-2 text-sm text-slate-500">Provides operational support aligning institutional objectives with global standards of engineering education.</p>
+                    </div>
+                    <div class="text-center animate-on-scroll delay-2">
+                        <img src="Indira mam.jpg" alt="Principal Dr.G. Indira" class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg border-4 border-white">
+                        <h3 class="mt-4 text-xl font-bold text-navy">Dr.G. Indira</h3>
+                        <p class="text-rose-red font-medium">Principal</p>
+                        <p class="mt-2 text-sm text-slate-500">Guiding academic excellence and ensuring quality standards across the institution.</p>
+                    </div>
+                    <div class="text-center animate-on-scroll delay-3">
+                        <img src="MahaLakshmi mam.jpg" alt="Dean Dr.V. Mahalakshmi" class="w-40 h-40 mx-auto rounded-full object-cover shadow-lg border-4 border-white">
+                        <h3 class="mt-4 text-xl font-bold text-navy">Dr.V. Mahalakshmi</h3>
+                        <p class="text-rose-red font-medium">Dean</p>
+                        <p class="mt-2 text-sm text-slate-500">Oversees academic curriculum and promotes holistic student growth and learning outcomes across departments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="info-page" class="page-section">
+        <section class="bg-white py-20 lg:py-24 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="animate-on-scroll">
+                        <img src="image.png" alt="Collaborative Team" class="w-full max-w-md mx-auto rounded-full object-cover shadow-2xl border-8 border-white">
+                    </div>
+                    <div class="animate-on-scroll delay-1">
+                        <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">About the Agile Assembly Portal</h2>
+                        <p class="mt-6 text-lg text-slate-600">The Agile Assembly Product Development Portal is designed exclusively for students, faculty, and staff of Prince Shri Venkateshvara Padmavathy Engineering College.</p>
+                        <p class="mt-4 text-lg text-slate-600">It aims to optimize academic life, streamline access to labs, and foster seamless collaboration across departments.</p>
+                        <p class="mt-4 text-lg text-slate-600">Here’s how this portal benefits the college and its stakeholders.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">Our Core Team</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">The driving force behind our agile initiatives and academic coordination.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-12 animate-on-scroll">
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <img src="Venkat sir.jpg" alt="Director Dr.D. Venkat" class="w-40 h-40 rounded-full object-cover shadow-md flex-shrink-0">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-navy">Dr.D. Venkata Subramanian, B.E, M.S. (Engg., USA), Ph.D, P.D.F</h3>
+                            <p class="font-semibold text-rose-red">Agile Director & Founder</p>
+                            <p class="mt-3 text-slate-600">Dr. D. Venkata Subramanian leads the agile development initiatives, fostering innovation in both academic and administrative operations. He works to implement agile methodologies that enhance efficiency, collaboration, and continuous improvement across all college functions, ensuring the college adopts modern, flexible approaches to project management.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                     <div class="bg-white p-8 rounded-xl shadow-lg text-center animate-on-scroll delay-1">
+    <img src="Preetha mam.jpg" alt="Dr. Preetha" class="w-34 h-32 mx-auto object-contain shadow-md rounded-none">
+    <h3 class="mt-4 text-xl font-bold text-navy">Dr.M.Preetha M.Tech., Ph.D.</h3>
+    <p class="font-semibold text-rose-red">Overall Coordinator</p>
+    <p class="mt-2 text-slate-600">Leads coordination efforts across departments, ensuring smooth communication and collaboration to achieve institutional goals.</p>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-lg text-center animate-on-scroll delay-1">
+    <img src="Revathi mam.jpg" alt="Mrs. Revathy" class="w-33 h-32 mx-auto object-contain shadow-md rounded-none">
+    <h3 class="mt-4 text-xl font-bold text-navy">Ms.K.Revathi M.E.,</h3>
+    <p class="font-semibold text-rose-red">IT Coordinator</p>
+    <p class="mt-2 text-slate-600">Manages and optimizes the college's IT infrastructure, ensuring all technology and tools for effective learning are operational.</p>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-lg text-center animate-on-scroll delay-2">
+    <img src="Umamaheswari mam.jpg" alt="Mrs. Uma Mageshwari" class="w-34 h-32 mx-auto object-contain shadow-md rounded-none">
+    <h3 class="mt-4 text-xl font-bold text-navy">Ms.B.Uma Maheswari M.E.,</h3>
+    <p class="font-semibold text-rose-red">CSE Coordinator</p>
+    <p class="mt-2 text-slate-600">Manages the CSE department's academic programs and promotes innovation in research and interdisciplinary collaboration.</p>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-lg text-center animate-on-scroll delay-3">
+    <img src="Mercilin_mam.jpg" alt="Dr.X.Mercilin Raajini" class="w-35 h-32 mx-auto object-contain shadow-md rounded-none">
+    <h3 class="mt-4 text-xl font-bold text-navy">Dr.X.Mercilin Raajini M.E.,Ph.D.</h3>
+    <p class="font-semibold text-rose-red">Research Funding & Incubation Support</p>
+    <p class="mt-2 text-slate-600">Promotes research and innovation by facilitating access to funding and overseeing the college's incubation center.</p>
+</div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="features-page" class="page-section">
+        <section class="py-10 bg-white  border-slate-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <h2 class="text-3xl sm:text-4xl font-bold text-rose-red text-center mb-8">Student Achievements Gallery</h2>
+
+    <div class="overflow-hidden relative">
+      <div class="gallery-marquee flex gap-10 w-max animate-marquee">
+        <!-- Repeat images twice for seamless loop -->
+
+        <!-- First Set -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach1.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2023</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach2.png" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2023</p>
+          </div>
+          <!-- Add all 15 images like this -->
+        </div>
+
+        <!-- Second Set (Duplicate for seamless infinite scroll) -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach3.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2022</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach4.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2022</p>
+          </div>
+          <!-- Repeat all 15 again -->
+        </div>
+        <!-- First Set -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach5.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2022</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach6.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2022</p>
+          </div>
+          <!-- Add all 15 images like this -->
+        </div>
+
+        <!-- Second Set (Duplicate for seamless infinite scroll) -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach7.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2021</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach8.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2021</p>
+          </div>
+          <!-- Repeat all 15 again -->
+        </div>
+        <!-- First Set -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach9.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2021</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach10.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2021</p>
+          </div>
+          <!-- Add all 15 images like this -->
+        </div>
+       <!-- First Set -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="sch agile1.jpg" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2025 </p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="clg agile1.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2025</p>
+          </div>
+          <!-- Add all 15 images like this -->
+        </div>
+        <!-- Second Set (Duplicate for seamless infinite scroll) -->
+        <div class="flex items-center gap-10">
+          <div class="flex flex-col items-center">
+            <img src="st ach11" alt="Achievement 1" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">🏆 2021</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="st ach11.jpg" alt="Achievement 2" class="w-64 h-40 object-cover rounded-lg shadow-md" />
+            <p class="text-sm text-slate-600 mt-2">📜 2021/p>
+          </div>
+          <!-- Repeat all 15 again -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <section class="py-20 lg:py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">What is Agile Assembly?</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-500">Agile Assembly is a student-driven initiative that applies agile principles to solve real-world challenges within our college community.</p>
+                </div>
+                <div class="mt-16 flex flex-col gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg animate-on-scroll hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-navy">Core Philosophy</h3>
+                        <p class="mt-2 text-slate-600">We embrace collaboration, iterative development, and continuous feedback. Our goal is to move quickly, adapt to change, and deliver value in every project we undertake, transforming ideas into tangible solutions.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg animate-on-scroll delay-1 hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-navy">Our Mission</h3>
+                        <p class="mt-2 text-slate-600">To bridge the gap between theoretical knowledge and practical application by creating a dynamic environment where students can innovate, build, and lead. We empower our members to develop solutions that enhance campus life.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg animate-on-scroll delay-2 hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-navy">Student-Led Innovation</h3>
+                        <p class="mt-2 text-slate-600">Agile Assembly is fundamentally about student empowerment. Members take ownership of projects from concept to deployment, gaining hands-on experience in project management, teamwork, and technical development.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg animate-on-scroll delay-3 hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-navy">Faculty and Mentorship</h3>
+                        <p class="mt-2 text-slate-600">Our teams are supported by experienced faculty members who act as mentors, providing guidance and industry insight. This mentorship ensures our projects maintain high standards of quality and relevance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="dashboard-page" class="page-section">
+         <section class="py-20 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                 <div class="text-center animate-on-scroll">
+                    <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">Our Esteemed Alumni & Past Developers</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">Celebrating the talented minds who have contributed to the Agile Assembly.</p>
+                </div>
+                
+                <div class="mt-16 bg-white rounded-2xl shadow-xl p-8 lg:p-12 animate-on-scroll">
+                    <h3 class="text-2xl font-bold text-navy text-center"> Agile Project Developers 2022-2026</h3>
+                    <div class="flex justify-center my-6">
+                        <img src="22-26 Batch pic.jpg" alt="Past Developers Group" class="rounded-lg shadow-md max-w-sm w-full">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 text-center">
+                        <div><p class="font-semibold text-slate-700">Britto Y</p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Gowtham S</p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Dharsan Arunkumar V P</p><span class="text-sm text-rose-red">CSE</span></div>
+                        <div><p class="font-semibold text-slate-700">Niranjan R</p><span class="text-sm text-rose-red">CSE</span></div>
+                        <div><p class="font-semibold text-slate-700">Raghul K V</p><span class="text-sm text-rose-red">CSE</span></div>
+                        <div><p class="font-semibold text-slate-700">Kiruthika A</p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Sara R</p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Shankari A</p><span class="text-sm text-rose-red">CSE</span></div>
+                        <div><p class="font-semibold text-slate-700">Srikaran </p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Bhavani P</p><span class="text-sm text-rose-red">CSE</span></div>
+                        <div><p class="font-semibold text-slate-700">John Paul S </p><span class="text-sm text-rose-red">IT</span></div>
+                        <div><p class="font-semibold text-slate-700">Ganesh K </p><span class="text-sm text-rose-red">CSE</span></div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 bg-navy rounded-2xl shadow-xl p-8 lg:p-12 animate-on-scroll">
+                    <h3 class="text-2xl font-bold text-white text-center">Agile Project Developers 2021-2025</h3>
+                    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                         <div><p class="font-semibold text-white">Tara Mrithula R</p><span class="text-sm text-indigo-300">IT</span></div>
+                         <div><p class="font-semibold text-white">Harini P</p><span class="text-sm text-indigo-300">IT</span></div>
+                         <div><p class="font-semibold text-white">Sneha G</p><span class="text-sm text-indigo-300">IT</span></div>
+                         <div><p class="font-semibold text-white">Pavithra S</p><span class="text-sm text-indigo-300">IT</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+     <div id="developers-page" class="page-section">
+  <section class="py-20 lg:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center animate-on-scroll">
+        <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">
+          Our Talented Agile Developers 2023-2025
+        </h2>
+        <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">
+          Meet the current team of innovators and problem-solvers driving our projects forward.
+        </p>
+      </div>
+
+      <div class="mt-16 space-y-12">
+
+        <!-- Suvetha -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Suvetha.jpg" alt="Suvetha E" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Suvetha E</h3>
+            <p class="font-semibold text-rose-red">Information Technology</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C, C++, Java, Python</li>
+                  <li><strong>Web Technologies:</strong> HTML, CSS, JavaScript, Bootstrap</li>
+                  <li><strong>Databases:</strong> Neo4j</li>
+                  <li><strong>Other Technologies:</strong> Data Science, Statistics, Azure Certified</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Campus Navigation System:</strong> Built a digital tool for real-time campus directions and accessibility enhancement.</li>
+                  <li><strong>Handwritten to Voice Translator:</strong> Assistive tool using handwriting recognition and TTS for mute individuals.</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/suvetha-easwara-prasath-a57268285" class="text-rose-red hover:underline">View Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Emlyn -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Emlyn.jpg" alt="Emlyn" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Emlyn</h3>
+            <p class="font-semibold text-rose-red">Computer Science Engineering</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> HTML, CSS, JavaScript</li>
+                  <li><strong>Soft Skills:</strong> Leadership, Community Service, Teamwork</li>
+                  <li><strong>Focus Areas:</strong> Web Development, Data Analysis</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Campus Navigation System:</strong> Built a digital tool for real-time campus directions and accessibility enhancement.</li>
+                  <li><strong>Handwritten to Voice Translator:</strong> Assistive tool using handwriting recognition and TTS for mute individuals.</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/emlynmanuela" class="text-rose-red hover:underline">View Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Janarthanan -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Janarthanan.jpg" alt="Janarthanan V" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Janarthanan V</h3>
+            <p class="font-semibold text-rose-red">Information Technology</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C, C++, Python, OOPS, Data Structures</li>
+                  <li><strong>Databases:</strong> SQL Queries, NoSQL, MongoDB, DocumentDB</li>
+                  <li><strong>Web Technologies:</strong> HTML, Tailwind CSS, JavaScript, PHP</li>
+                  <li><strong>Frameworks & Engines:</strong> Unity, Unreal Engine</li>
+                  <li><strong>Other Technologies:</strong> Machine Learning (ML), Augmented Reality (AR), Virtual Reality (VR)</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Agile Assembly Web Application:</strong> Developed a full-stack website to showcase Agile-based product development for college faculty and students. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                  <li><strong>Prince Study Material Portal:</strong> Built a portal containing academic materials across semesters and departments with login validation and accordion UI. <em>Tech Used: HTML, CSS, JavaScript, PHP</em></li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/janarthanan-venkatesan-ab274a2a1" class="text-rose-red hover:underline">View Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Adarsh G -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Adarsh.jpg" alt="Adarsh G" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Adarsh G</h3>
+            <p class="font-semibold text-rose-red">Computer Science Engineering</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C, C++, Java, Python, Node.js</li>
+                  <li><strong>Web Technologies:</strong> HTML, CSS, JavaScript, PHP</li>
+                  <li><strong>Databases:</strong> SQL, Neo4j</li>
+                  <li><strong>UI/UX:</strong> Figma</li>
+                  <li><strong>Learning Platforms:</strong> GUVI, Coursera, GeeksForGeeks</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Lab Inventory System:</strong> The lab inventory system allocates the system for the students based on their barcode ID; it ensures student attendance in lab activities. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                  <li><strong>Agile Assembly Web Application:</strong> Developed a full-stack website to showcase Agile-based product development for college faculty and students. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/adarsh-g-ag/" class="text-rose-red hover:underline">View Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ✅ Harshal V T (Fixed Section) -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Harshal.jpg" alt="Harshal V T" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Harshal V T</h3>
+            <p class="font-semibold text-rose-red">Information Technology</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Languages:</strong> Java (Core), Python, SQL (Core)</li>
+                  <li><strong>Core Skills:</strong> Database Design, Query Optimization, Shell Scripting, Performance Profiling</li>
+                  <li><strong>Technologies:</strong> PostgreSQL, Linux, Deep Learning (PyTorch), GenAI (LLM Fine-Tuning)</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>SME Tech Guru:</strong> Driving innovation empowering mind, on-going research project. <em>Tech Used: Python, Flask</em></li>
+                  <li><strong>Stimulated UPI Payment System:</strong> Built a backend-driven UPI payment simulation system where users can securely send and receive money, view balances, and track transaction history in real time. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>
+                <a href="https://www.linkedin.com/in/h-vt" class="text-rose-red hover:underline">View Profile</a>
+              </li>
+            </ul>
+          </div>
+        </div> 
+
+       <!-- Harish Kumar -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="Harish Kumar.jpg" alt="Harish Kumar" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Harish Kumar</h3>
+            <p class="font-semibold text-rose-red">Computer Science Engineering</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C, C++, Python, Java</li>
+                  <li><strong>Web Technologies:</strong> HTML, CSS, JavaScript</li>
+                  <li><strong>Databases:</strong> MySQL, MongoDB (Basic)</li>
+                  <li><strong>AR/VR Tools:</strong> Unity, Unreal Engine</li>
+                  <li><strong>Tools & IDEs:</strong> Visual Studio Code, NetBeans</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Agile Assembly Web Application:</strong> Developed a full-stack website to showcase Agile-based product development for college faculty and students. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                  <li><strong>Lumina Spark:</strong> A multilingual, voice-controlled AI assistant for educators.  <em>Tech Used: HTML, Tailwind CSS etc,.</em></li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span> <a href="https://www.linkedin.com/in/harish-kumar-sp-hk220519" class="text-rose-red hover:underline">View Profile</a></li>
+            </ul>
+          </div>
+        </div>
+
+       
+        <!-- Krishna Kumar -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="krishna_pic.jpg" alt="Krishna Kumar" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Krishna Kumar</h3>
+            <p class="font-semibold text-rose-red">Information Technology</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C, C++, Python</li>
+                  <li><strong>Technologies:</strong> HTML, CSS, JavaScript</li>
+                  <li><strong>Other Tools:</strong> GitHub, VS Code</li>
+                  <li><strong>Technologies:</strong> Streamlit, Flask, Linux, Deep Learning</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Bus Route Navigation System:</strong> College bus tracker is a flutter based android and web app that allows students to view live bus locations and routes. <em>Tech Used: HTML, CSS, JS</em></li>
+                 <li><strong>Agile Assembly Web Application:</strong> Developed a full-stack website to showcase Agile-based product development for college faculty and students. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span>  <a href="https://www.linkedin.com/in/krishnakumar-nadhakumar-870804328?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="text-slate-500 italic">View Profile</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Yashwanth -->
+        <div class="bg-white rounded-xl shadow-lg p-8 animate-on-scroll flex flex-col md:flex-row items-center text-center md:text-left gap-8 hover:-translate-y-2 transition-transform duration-300">
+          <img src="yaswanth_pic.jpg" alt="Yashwanth" class="w-32 h-32 rounded-full object-cover shadow-md flex-shrink-0 border-4 border-rose-red/20">
+          <div class="w-full">
+            <h3 class="text-2xl font-bold text-navy">Yashwanth</h3>
+            <p class="font-semibold text-rose-red">Computer Science Engineering</p>
+            <ul class="mt-4 space-y-2 text-slate-600">
+              <li><span class="font-semibold text-navy">Skills:</span>
+                <ul class="list-disc ml-5">
+                  <li><strong>Programming Languages:</strong> C/C++, Python, Java</li>
+                  <li><strong>Web & Backend:</strong> Node.js, React, HTML/CSS/JS</li>
+                  <li><strong>Databases:</strong> SQL, Neo4j</li>
+                  <li><strong>Technologies:</strong> TypeScript, XML</li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">Projects:</span>
+                <ul class="list-disc ml-5">
+                   <li><strong>Lab Inventory System:</strong> The lab inventory system allocates the system for the students based on the students barcode in their ID, it ensures the students attendance on their lab activities.   <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+                   <li><strong>Agile Assembly Web Application:</strong> Developed a full-stack website to showcase Agile-based product development for college faculty and students. <em>Tech Used: HTML, Tailwind CSS, JavaScript</em></li>
+              </li>
+                </ul>
+              </li>
+              <li><span class="font-semibold text-navy">LinkedIn:</span> <a href="https://www.linkedin.com/in/yashwanth-nv-78b5502a4/" class="text-rose-red hover:underline">View Profile</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+    
+    <div id="projects-page" class="page-section">
+    <section class="py-20 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-on-scroll">
+                <h2 class="text-3xl font-bold text-rose-red tracking-tight sm:text-4xl">Featured Projects</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-500">A showcase of our key initiatives and technological solutions developed under the Agile Assembly.</p>
+            </div>
+            <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Row 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll">
+                    <img src="education1.png" alt="Edu Portal" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">Edu Portal</h3>
+                        <p class="mt-3 text-slate-600">This central portal streamlines access to academic resources, lab bookings, and collaboration tools. It integrates study materials, exam schedules, and crucial data to ensure smooth academic operations.</p>
+                        <a href="https://agile25assembly.github.io/prince-edu-portal/" target="_blank" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll delay-1">
+                    <img src="1723990299036.jpeg" alt="Faculty Recommendation System" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">Faculty/Tech Guru Recommendation System</h3>
+                        <p class="mt-3 text-slate-600">A smart recommendation system that matches students with faculty or technical mentors based on interests, expertise, and academic goals — promoting personalized guidance and collaboration.</p>
+                        <a href="https://smetechguru.streamlit.app" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll">
+                    <img src="busnav (1).png" alt="College Bus Navigation System" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">College Bus Navigation System</h3>
+                        <p class="mt-3 text-slate-600">A live bus tracking application providing students with real-time updates on routes, arrivals, and delays, ensuring smooth transportation and time management.</p>
+                        <a href="https://safetrackcampus-1.onrender.com" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll delay-1">
+                    <img src="campus-navigation-app.png" alt="Smart Campus Navigation System" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">Smart Campus Navigation System</h3>
+                        <p class="mt-3 text-slate-600">An interactive, mobile-friendly application providing clear directions and real-time location information for departments, labs, and facilities across the campus, enhancing accessibility for all.</p>
+                        <a href="https://campus-navigation-mc6z.onrender.com" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll">
+                    <img src="CSE-Lab-Pics-6.png" alt="Lab Inventory System Mapping" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">Lab Inventory System Mapping</h3>
+                        <p class="mt-3 text-slate-600">An intelligent inventory management system for laboratories. It tracks equipment, availability, and usage, enabling departments to monitor assets and reduce waste efficiently.</p>
+                        <a href="#" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden animate-on-scroll delay-1">
+                    <img src="Speech.jpg" alt="Handwriting Recognition and Translation" class="w-full h-56 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-navy">Handwriting Recognition & Speech Translation</h3>
+                        <p class="mt-3 text-slate-600">A multilingual AI tool that recognizes handwritten Tamil, Telugu, and Hindi text and translates it into real-time audio, enhancing accessibility for diverse learners.</p>
+                        <a href="https://lingua-lens.onrender.com" class="inline-block mt-4 font-semibold text-rose-red hover:text-navy">View Product <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+</main>
+
+<footer class="bg-rose-red text-white">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+      
+      <div class="md:col-span-4">
+        <div class="flex items-center gap-3 mb-4">
+            <img src="Prince-Logo-scaled.png" alt="College Logo" class="w-16  p-1 rounded-full">
+            <div>
+                <h3 class="font-bold text-lg">Agile Assembly</h3>
+                <p class="text-rose-200 text-sm">Prince Shri Venkateshwara Padmavathy Engineering College</p>
+            </div>
+        </div>
+        <p class="text-sm leading-relaxed text-rose-100">
+          Prince Shri Venkateshwara Padmavathy Engineering College,<br>
+          Medavakkam - Mambakkam Road, Ponmar, Chennai - 600073, Tamil Nadu, India
+        </p>
+        <p class="mt-4 text-sm text-rose-100">📞 044-24991414</p>
+        <p class="text-sm text-rose-100">✉️ agile.assembly.2025@gmail.com </p>
+      </div>
+
+      <div class="md:col-span-4 lg:col-span-2">
+        <h3 class="text-lg font-semibold tracking-wider uppercase">Quick Links</h3>
+        <ul class="mt-4 space-y-2 text-sm">
+          <li><a href="#home-page" class="nav-link text-rose-200 hover:text-white">🏠 Home</a></li>
+          <li><a href="#info-page" class="nav-link text-rose-200 hover:text-white">📖 About</a></li>
+          <li><a href="#features-page" class="nav-link text-rose-200 hover:text-white">✨ Features</a></li>
+          <li><a href="#dashboard-page" class="nav-link text-rose-200 hover:text-white">🎓 Alumni</a></li>
+          <li><a href="#developers-page" class="nav-link text-rose-200 hover:text-white">💻 Developers</a></li>
+          <li><a href="#projects-page" class="nav-link text-rose-200 hover:text-white">📁 Projects</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4 lg:col-span-6">
+        <h3 class="text-lg font-semibold tracking-wider uppercase">Connect with Us</h3>
+        <p class="text-sm text-rose-200 mt-4">Stay updated on our latest Agile developments and campus news.</p>
+        <div class="flex space-x-5 text-2xl mt-4">
+          <a href="#" class="text-rose-200 hover:text-white transition-colors"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-rose-200 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="text-rose-200 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-rose-200 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-xs text-rose-200 mt-10 border-t border-rose-500/50 pt-6">
+      &copy; 2025 Agile Assembly | Prince Shri Venkateshwara Padmavathy Engineering College. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const pageSections = document.querySelectorAll('.page-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+
+    // --- Page Switching Logic ---
+    function showPage(targetId) {
+        const id = targetId.startsWith('#') ? targetId.substring(1) : targetId;
+        
+        pageSections.forEach(section => {
+            if (section.id === id) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+
+        // Trigger animations for the new active page
+        const activePage = document.querySelector('.page-section.active');
+        if (activePage) {
+            // Reset animations
+            activePage.querySelectorAll('.animate-on-scroll').forEach(el => {
+                el.classList.remove('visible');
+            });
+            // Trigger new animations after a short delay
+            setTimeout(() => {
+                triggerScrollAnimations(activePage);
+            }, 50);
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = e.currentTarget.getAttribute('href');
+            showPage(targetId);
+
+            // Close mobile menu if open
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
+            }
+        });
+    });
+
+    // --- Mobile Menu Toggle ---
+    mobileMenuButton.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        if (isHidden) {
+            mobileMenuIcon.classList.remove('fa-times');
+            mobileMenuIcon.classList.add('fa-bars');
+        } else {
+            mobileMenuIcon.classList.remove('fa-bars');
+            mobileMenuIcon.classList.add('fa-times');
+        }
+    });
+
+    // --- Scroll Animation Logic ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.2 // Trigger when 20% of the element is visible
+    });
+
+    function triggerScrollAnimations(container) {
+        const elementsToAnimate = container.querySelectorAll('.animate-on-scroll');
+        elementsToAnimate.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // --- Header Shadow on Scroll ---
+    const header = document.getElementById('app-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+            header.classList.add('shadow-md');
+        } else {
+            header.classList.remove('shadow-md');
+        }
+    });
+
+    // --- Initial Page Load ---
+    // Check for hash in URL, otherwise default to home
+    const initialPage = window.location.hash || '#home-page';
+    showPage(initialPage);
+});
+</script>
+
+
+
+
+
+</body>
+</html>
+
+
+
